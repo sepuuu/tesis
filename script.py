@@ -1,63 +1,45 @@
 import cv2
-import numpy as np
+import torch
 
-# Carga el modelo YOLO
-model = cv2.dnn.readNet("yolo.weights", "yolo.cfg")
+# Carga el modelo YOLOv5 utilizando torch.hub
+modelo = torch.hub.load('ultralytics/yolov5:master', 'yolov5s', pretrained=True)
 
-# Carga el video
-cap = cv2.VideoCapture("video.mp4")
+# Configura la detección
+umbral_confianza = 0.5  # Umbral de confianza para la detección
+umbral_iou = 0.5   # Umbral de IoU para la supresión no máxima
 
-# Inicializa un diccionario para almacenar las coordenadas de los jugadores
-players = {}
+# Abre el archivo de video
+ruta_video = 'tu_video.mp4'  # Cambia esto al nombre de tu archivo .mp4
+cap = cv2.VideoCapture(ruta_video)
 
-while True:
-    # Captura un cuadro del video
-    ret, frame = cap.read()
+# Configura la salida de video
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+video_salida = cv2.VideoWriter('video_salida.avi', fourcc, 30.0, (int(cap.get(3)), int(cap.get(4))))
 
-    # Detecta jugadores en el cuadro
-    blob = cv2.dnn.blobFromImage(frame, 1/255.0, (416, 416), (0, 0, 0), True, crop=False)
-    model.setInput(blob)
-    detections = model.forward()
-
-    # Actualiza el diccionario de jugadores
-    for i in range(0, detections.shape[2]):
-        confidence = detections[0, 0, i, 2]
-        if confidence > 0.5:
-            x = int(detections[0, 0, i, 3])
-            y = int(detections[0, 0, i, 4])
-            w = int(detections[0, 0, i, 5])
-            h = int(detections[0, 0, i, 6])
-
-            # Crea un objeto jugador
-            player = {
-                "x": x,
-                "y": y,
-                "w": w,
-                "h": h,
-            }
-
-            # Agrega el objeto jugador al diccionario
-            players[i] = player
-
-    # Dibuja los jugadores detectados
-    for player in players.values():
-        x = player["x"]
-        y = player["y"]
-        w = player["w"]
-        h = player["h"]
-
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
-
-    # Muestra el cuadro
-    cv2.imshow("Video", frame)
-
-    # Termina el programa si se presiona la tecla q
-    key = cv2.waitKey(1)
-    if key == ord("q"):
+while cap.isOpened():
+    ret, cuadro = cap.read()
+    if not ret:
         break
 
-# Cierra el video
-cap.release()
+    # Realiza la detección de objetos
+    resultados = modelo(cuadro)
 
-# Destruye todas las ventanas abiertas
-cv2.destroyAllWindows()
+    # Accede a las detecciones
+    detecciones = resultados.pred[0]
+
+    # Aplica los filtros de confianza e IoU
+    mascara = detecciones[:, 4] > umbral_confianza
+    detecciones = detecciones[mascara]
+
+    # Dibuja los cuadros delimitadores y etiquetas en el cuadro
+    for det in detecciones:
+        xyxy = det[:4].cpu().numpy().astype(int)
+        etiqueta = f'{resultados.names[int(det[5])]} {det[4]:.2f}'
+        cv2.rectangle(cuadro, (xyxy[0], xyxy[1]), (xyxy[2], xyxy[3]), (0, 255, 0), 2)
+        cv2.putText(cuadro, etiqueta, (xyxy[0], xyxy[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+
+    # Guarda el cuadro en el video resultante
+    video_salida.write(cuadro)
+
+cap.release()
+video_salida.release()
