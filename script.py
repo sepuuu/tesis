@@ -5,16 +5,16 @@ import torch
 modelo = torch.hub.load('ultralytics/yolov5:master', 'yolov5s', pretrained=True)
 
 # Configura la detección
-umbral_confianza = 0.5  # Umbral de confianza para la detección
+umbral_confianza = 0.3  # Umbral de confianza para la detección
 umbral_iou = 0.5   # Umbral de IoU para la supresión no máxima
 
 # Abre el archivo de video
-ruta_video = 'tu_video.mp4'  # Cambia esto al nombre de tu archivo .mp4
+ruta_video = 'video2.mp4'  # Cambia esto al nombre de tu archivo .mp4
 cap = cv2.VideoCapture(ruta_video)
 
 # Configura la salida de video
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-video_salida = cv2.VideoWriter('video_salida.avi', fourcc, 30.0, (int(cap.get(3)), int(cap.get(4))))
+video_salida = cv2.VideoWriter('video_salida2.avi', fourcc, 30.0, (int(cap.get(3)), int(cap.get(4))))
 
 while cap.isOpened():
     ret, cuadro = cap.read()

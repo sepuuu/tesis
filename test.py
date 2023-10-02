@@ -5,7 +5,7 @@ import torch
 model = torch.hub.load('ultralytics/yolov5:master', 'yolov5s', pretrained=True)
 
 # Configura la detección
-conf_thres = 0.5  # Umbral de confianza para la detección
+conf_thres = 0.2 # Umbral de confianza para la detección
 iou_thres = 0.5   # Umbral de IoU para la supresión no máxima
 
 # Abre el archivo de video
