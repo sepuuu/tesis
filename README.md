@@ -29,3 +29,5 @@ El sistema desarrollado es una herramienta valiosa para el análisis de partidos
 * YOLOv5: algoritmo de aprendizaje automático para la detección de objetos
 * OpenCV: biblioteca de software para visión por computadora
 * Python: lenguaje de programación para ciencias de la computación
+
+
