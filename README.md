@@ -5,7 +5,7 @@
 ![Imagen](img.png)
 **Resumen:**
 
-Este proyecto consiste en el desarrollo de un sistema para rastrear acciones en partidos de fútbol. El sistema utiliza la tecnología YOLOv5 para identificar a los jugadores y el balón en el video. Una vez que los jugadores y el balón han sido identificados, el sistema puede calcular diferentes métricas importantes, como la posición de los jugadores, la velocidad del balón y la trayectoria del balón.
+Este proyecto consiste en el desarrollo de un sistema para rastrear acciones en partidos de fútbol. El sistema utiliza la tecnología YOLOv5 para identificar a los jugadores y el balón en el video. Una vez que los jugadores y el balón han sido identificados, el sistema puede calcular diferentes métricas importantes.
 
 **Objetivos:**
 
