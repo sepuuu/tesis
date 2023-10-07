@@ -18,7 +18,7 @@ while cap.isOpened():
 
     if success:
         # Run YOLOv8 tracking on the frame, persisting tracks between frames
-        results = model.track(frame, conf=0.5, persist=True)
+        results = model.track(frame, conf=0.3, persist=True)
         result = results[0]
 
         if results[0].boxes is not None:

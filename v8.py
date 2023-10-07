@@ -30,6 +30,7 @@ while cap.isOpened():
             class_names_dict = result.names
 
             for box, id, class_id, conf_value in zip(boxes, ids, class_ids,conf):
+                print (boxes)
                 # Accede al nombre de clase correspondiente utilizando la class_id
                 if class_id in class_names_dict:
                     class_name = class_names_dict[class_id]
