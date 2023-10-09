@@ -2,15 +2,15 @@ import cv2
 from ultralytics import YOLO
 
 # Load the YOLOv8 model
-model = YOLO('yolov8x.pt')
+model = YOLO('modelos/best.pt')
 
 # Open the video file
-video_path = "video2.mp4"
+video_path = "videos/entrada/albo.mp4"
 cap = cv2.VideoCapture(video_path)
 
 # Define the codec and create VideoWriter object for AVI output
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-output_video = cv2.VideoWriter('output_video.avi', fourcc, 30.0, (int(cap.get(3)), int(cap.get(4))))
+output_video = cv2.VideoWriter('videos/salida/output_video2.avi', fourcc, 30.0, (int(cap.get(3)), int(cap.get(4))))
 
 while cap.isOpened():
     success, frame = cap.read()
@@ -30,7 +30,6 @@ while cap.isOpened():
             class_names_dict = result.names
 
             for box, id, class_id, conf_value in zip(boxes, ids, class_ids,conf):
-                print (boxes)
                 # Accede al nombre de clase correspondiente utilizando la class_id
                 if class_id in class_names_dict:
                     class_name = class_names_dict[class_id]
