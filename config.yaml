@@ -1,4 +1,4 @@
-path: C:/Users/mati/Documents/GitHub/tesis/datasets/data
+path: /home/mati/Documentos/GitHub/tesis/datasets/data
 train: images/train
 val: images/train
 

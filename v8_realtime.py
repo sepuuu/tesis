@@ -10,7 +10,7 @@ cap = cv2.VideoCapture(video_path)
 
 # Define the codec and create VideoWriter object for AVI output
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-output_video = cv2.VideoWriter('videos/salida/output_video2.avi', fourcc, 30.0, (int(cap.get(3)), int(cap.get(4))))
+output_video = cv2.VideoWriter('videos/salida/output_video.avi', fourcc, 30.0, (int(cap.get(3)), int(cap.get(4))))
 
 
 while cap.isOpened():
@@ -18,7 +18,7 @@ while cap.isOpened():
 
     if success:
         # Run YOLOv8 tracking on the frame, persisting tracks between frames
-        results = model.track(frame, conf=0.8, persist=True)
+        results = model.track(frame, conf=0.7, persist=True)
         result = results[0]
 
         if results[0].boxes is not None:
