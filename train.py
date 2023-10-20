@@ -6,7 +6,7 @@ model = YOLO('modelos/yolov8x.pt')  # load a pretrained model (recommended for t
 # Train the model with 2 GPUs
 #results = model.train(data='config.yaml', epochs=3 )
 
-results = model.train(data='config.yaml', epochs=1, imgsz=640, device="cpu")
+results = model.train(data='config.yaml', epochs=10, imgsz=640, device="cpu")
 
 
 
