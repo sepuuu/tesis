@@ -2,15 +2,15 @@ import cv2
 from ultralytics import YOLO
 
 # Load the YOLOv8 model
-model = YOLO('yolov8x.pt')
+model = YOLO('modelos/best.pt')
 
 # Open the video file
-video_path = "video2.mp4"
+video_path = "videos/entrada/albo.mp4"
 cap = cv2.VideoCapture(video_path)
 
 # Define the codec and create VideoWriter object for AVI output
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-output_video = cv2.VideoWriter('output_video.avi', fourcc, 30.0, (int(cap.get(3)), int(cap.get(4))))
+output_video = cv2.VideoWriter('videos/salida/output_video.avi', fourcc, 30.0, (int(cap.get(3)), int(cap.get(4))))
 
 
 while cap.isOpened():
@@ -18,7 +18,7 @@ while cap.isOpened():
 
     if success:
         # Run YOLOv8 tracking on the frame, persisting tracks between frames
-        results = model.track(frame, conf=0.3, persist=True)
+        results = model.track(frame, conf=0.7, persist=True)
         result = results[0]
 
         if results[0].boxes is not None:
