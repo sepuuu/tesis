@@ -5,5 +5,5 @@ val: images/train
 
 
 names:
-  0: jugador
-  1: balon
+  0: person
+  1: ball
