@@ -1,7 +1,6 @@
-path: /home/users/mmillacura/tesis/datasets/data
+path: /Users/matia/OneDrive/Documentos/GitHub/tesis/datasets/data
 train: images/train
 val: images/train
-
 
 
 names:

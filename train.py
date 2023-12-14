@@ -1,12 +1,25 @@
-from ultralytics import YOLO
-import ultralytics
-# Load a model
-model = YOLO('modelos/yolov8x.pt')  # load a pretrained model (recommended for training)
+import multiprocessing as mp
+from ultralytics import YOLO, YAML
+import koila
 
-# Train the model with 2 GPUs
-#results = model.train(data='config.yaml', epochs=3 )
+def train_model():
 
-results = model.train(data='config.yaml', epochs=10, imgsz=640, device="cpu")
+    model = YOLO('modelos/yolov8x.pt')
+    
+    data = YAML('config.yaml') # Cargar archivo YAML
+    dataset = data.train # Obtener dataset de entrenamiento
+    
+    wrapped_dataset = koila.Data(dataset) 
 
+    results = model.train(data=wrapped_dataset, 
+                          epochs=1, 
+                          imgsz=640,  
+                          device=0)
 
+if __name__ == "__main__":
 
+    mp.freeze_support()    
+
+    process = mp.Process(target=train_model)
+    process.start()
+    process.join()
