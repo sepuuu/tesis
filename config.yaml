@@ -1,8 +1,0 @@
-path: /Users/matia/OneDrive/Documentos/GitHub/tesis/datasets/data
-train: images/train
-val: images/train
-
-
-names:
-  0: person
-  1: ball

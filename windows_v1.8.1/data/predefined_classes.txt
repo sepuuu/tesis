@@ -1,2 +1,13 @@
-person
-ball
+CENTRO
+CS
+CI
+ESI
+EII
+PILI
+PDLI
+EID
+ESD
+PDLD
+PILD
+AI
+AD
