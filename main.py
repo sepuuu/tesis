@@ -47,7 +47,7 @@ src_pts = np.array([  #video
   [1591, 488], 
   [1869, 953]     
 ])
-
+output_txt_file = 'posiciones_jugadores.txt'
 # Calcular homografía
 h, _ = cv2.findHomography(src_pts, dst_pts)
 
@@ -55,14 +55,14 @@ h, _ = cv2.findHomography(src_pts, dst_pts)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 
 output_video = cv2.VideoWriter('videos/salida/output_video6.avi', fourcc, 30.0, (854*2, 480))
-
+posiciones_jugador = []
 
 while cap.isOpened():
     success, frame = cap.read()
 
     if success:
         # Run YOLOv8 tracking on the frame, persisting tracks between frames
-        results = model.track(frame, conf=0.3, persist=True, iou=0.2)
+        results = model.track(frame, conf=0.1, persist=True, iou=0.2)
         result = results[0]
 
         if results[0].boxes is not None:
@@ -78,6 +78,7 @@ while cap.isOpened():
                 x1, y1, x2, y2 = box
                 verts = np.array([[x1, y1], [x2, y1], [x2, y2], [x1, y2]], dtype=np.float32)
                 warped_verts = cv2.perspectiveTransform(verts.reshape(-1, 1, 2), h)
+
                 min_x = warped_verts[:,:,0].min()
                 max_x = warped_verts[:,:,0].max()
                 min_y = warped_verts[:,:,1].min()
@@ -85,9 +86,15 @@ while cap.isOpened():
                 warped_box = [min_x, min_y, max_x, max_y]
                 warped_boxes.append(warped_box)
 
-                print(boxes)
-                print(warped_boxes)
-
+                print(boxes[2])
+                
+                
+        if len(warped_boxes) > 1:
+            pos_jugador = warped_boxes[6]
+            posiciones_jugador.append(pos_jugador)
+            print(pos_jugador)
+        else:
+            print("No hay suficientes jugadores detectados en este cuadro.")                   
             # Dibuja los bounding boxes transformados en la imagen del campo 2D
 # Dibuja los puntos en el centro de masa de los bounding boxes transformados en la imagen del campo 2D
         field_img = field_img_copy.copy()  # Restaura la copia original antes de dibujar
@@ -96,6 +103,8 @@ while cap.isOpened():
             center_x = int((x1 + x2) / 2)
             center_y = int((y1 + y2) / 2)
             cv2.circle(field_img, (center_x, center_y), 15, (255, 255, 255), -1)
+
+            
             # Resto del código para mostrar la información y el texto en el cuadro...
 
 
@@ -132,6 +141,8 @@ while cap.isOpened():
     else:
         break
 
+np.savetxt(output_txt_file, posiciones_jugador, fmt='%d')
+print(posiciones_jugador)
 cap.release()
 output_video.release()
 cv2.destroyAllWindows()

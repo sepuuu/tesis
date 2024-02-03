@@ -9,4 +9,4 @@ Este proyecto consiste en el desarrollo de un sistema para rastrear acciones en 
 
 
 
-
+![Imagen](heatmap_plot.png)
