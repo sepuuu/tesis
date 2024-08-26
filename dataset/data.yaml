@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 2
+names: ['BALON', 'JUGADOR']
+
+roboflow:
+  workspace: tesis-dkpk1
+  project: dataset-prueba
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/tesis-dkpk1/dataset-prueba/dataset/1
